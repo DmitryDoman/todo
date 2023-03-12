@@ -50,20 +50,6 @@ fun AddTotoItemScreen(
     val state = viewModel.state.collectAsState()
     val context = LocalContext.current
 
-//    val timePicker = TimePickerDialog(
-//        context,
-//        { _, selectedHour: Int, selectedMinute: Int ->
-//            currentDate.set(
-//                currentDate[Calendar.YEAR],
-//                currentDate[Calendar.MONTH],
-//                currentDate[Calendar.DAY_OF_MONTH],
-//                selectedHour,
-//                selectedMinute
-//            )
-//            viewModel.onEvent(AddTotoItemEvent.DataChanged(currentDate))
-//        }, state.value.date[Calendar.HOUR], state.value.date[Calendar.MINUTE], false
-//    )
-
     val datePicker = DatePickerDialog(
         context,
         { _: DatePicker, selectedYear: Int, selectedMonth: Int, selectedDayOfMonth: Int ->

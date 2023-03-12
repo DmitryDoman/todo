@@ -9,7 +9,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -39,13 +38,13 @@ class TodoListViewModel @Inject constructor(
         when (event) {
             TodoListEvent.AddNewItem -> {
                 viewModelScope.launch {
-                    _navigator.send(Screen.Add.destination)
+                    _navigator.send(Screen.AddEdit.destination)
                 }
             }
 
             is TodoListEvent.EditTodoItem -> {
                 viewModelScope.launch {
-                    _navigator.send("${Screen.Add.destination}?id=${event.id}")
+                    _navigator.send("${Screen.AddEdit.destination}?id=${event.id}")
                 }
             }
 
