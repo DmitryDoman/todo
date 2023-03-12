@@ -1,5 +1,6 @@
 package com.example.vktodo.presenter.list
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,6 +12,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -74,6 +76,9 @@ fun TodoScreen(
             } else {
                 items(list.value) { item ->
                     ListItem(
+                        modifier = Modifier.fillMaxWidth().clickable {
+                            viewModel.onEvent(TodoListEvent.EditTodoItem(item.id ?: return@clickable))
+                        },
                         headlineText = { Text(text = item.title) },
                         supportingText = { Text(text = item.timestamp.asFormattedString()) },
                         trailingContent = {
@@ -87,6 +92,7 @@ fun TodoScreen(
                             }
                         }
                     )
+                    Divider()
                 }
             }
         }

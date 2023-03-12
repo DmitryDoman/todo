@@ -45,7 +45,7 @@ class TodoListViewModel @Inject constructor(
 
             is TodoListEvent.EditTodoItem -> {
                 viewModelScope.launch {
-                    _navigator.send("${Screen.Add.destination}/${event.id}")
+                    _navigator.send("${Screen.Add.destination}?id=${event.id}")
                 }
             }
 

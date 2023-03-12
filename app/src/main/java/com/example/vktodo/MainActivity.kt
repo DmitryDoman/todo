@@ -14,9 +14,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.vktodo.presenter.add.AddTotoItemScreen
 import com.example.vktodo.presenter.list.TodoListViewModel
 import com.example.vktodo.presenter.list.TodoScreen
@@ -48,7 +50,15 @@ class MainActivity : ComponentActivity() {
                         composable(route = Screen.TodoList.destination) {
                             TodoScreen(navController = navController)
                         }
-                        composable(route = Screen.Add.destination) {
+                        composable(
+                            route = "${Screen.Add.destination}?id={id}",
+                            arguments = listOf(
+                                navArgument("id") {
+                                    type = NavType.IntType
+                                    defaultValue = -1
+                                }
+                            )
+                        ) {
                             AddTotoItemScreen(navController = navController)
                         }
                     }

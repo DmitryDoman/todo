@@ -1,6 +1,7 @@
 package com.example.vktodo.presenter.add
 
 import android.provider.ContactsContract.Data
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.vktodo.domain.model.TodoItem
@@ -21,7 +22,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddTodoViewModel @Inject constructor(
-    private val repository: TodoRepository
+    private val repository: TodoRepository,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(AddItemState())
@@ -30,6 +32,24 @@ class AddTodoViewModel @Inject constructor(
     private val _uiActions = Channel<AddItemActions>(Channel.UNLIMITED)
     val uiActions: Flow<AddItemActions> = _uiActions.receiveAsFlow()
 
+    private var currentId: Int? = null
+
+    init {
+        savedStateHandle.get<Int>("id")?.let { id ->
+            viewModelScope.launch {
+                repository.fetchById(id)?.let { item ->
+                    currentId = item.id
+                    _state.update {
+                        it.copy(
+                            title = item.title,
+                            date = Calendar.getInstance().apply { timeInMillis = item.timestamp },
+                            isSaveEnabled = true
+                        )
+                    }
+                }
+            }
+        }
+    }
     fun onEvent(event: AddTotoItemEvent) {
         when (event) {
             AddTotoItemEvent.Save -> {
@@ -38,7 +58,7 @@ class AddTodoViewModel @Inject constructor(
                         TodoItem(
                             title = _state.value.title,
                             timestamp = _state.value.date.timeInMillis,
-                            id = null
+                            id = currentId
                         )
                     )
                     _uiActions.send(AddItemActions.NavigateUp)
