@@ -1,13 +1,11 @@
 package com.example.vktodo.presenter.add
 
-import android.provider.ContactsContract.Data
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.vktodo.domain.model.TodoItem
 import com.example.vktodo.domain.repository.TodoRepository
 import com.example.vktodo.domain.usecase.ValidateTitleInput
-import com.example.vktodo.presenter.list.TodoListEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
